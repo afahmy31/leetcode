@@ -10,7 +10,10 @@ func main() {
 	// fmt.Println(containsDuplicate([]int{1, 3, 4, 5}))
 	// fmt.Println(twoSum([]int{1, 3, 2, 9, 4, 5}, 10))
 	// fmt.Println(groupAnagrams([]string{"eat", "tea", "tan", "ate", "nat", "bat"}))
-	fmt.Println(topKFrequent([]int{1, 1, 1, 3, 2, 2}, 2))
+	// fmt.Println(topKFrequentBucketSortSol([]int{1, 1, 1, 3, 2, 2, 4, 4}, 2))
+	fmt.Println(topKFrequentBucketSortSol([]int{-1, -1}, 1))
+	fmt.Println(topKFrequentBucketSortSol([]int{1, 1, 2, 2, 2, 3, 3, 3}, 3))
+
 }
 
 func containsDuplicate(nums []int) bool {
@@ -79,7 +82,6 @@ type Mapp struct {
 	Entries int
 }
 
-// fmt.Println(topKFrequent([]int{1, 1, 1, 2, 2, 3}, 2))
 func topKFrequent(nums []int, k int) (output []int) {
 	arrayOfMapps := []Mapp{}
 	mapp := make(map[int]int)
@@ -99,3 +101,28 @@ func topKFrequent(nums []int, k int) (output []int) {
 }
 
 func topKFrequentBucketSortSol(nums []int, k int) (output []int) {
+	if len(nums) == k {
+		return nums
+	}
+	array := make([][]int, len(nums)+1)
+	mapp := make(map[int]int)
+
+	for _, val := range nums {
+		mapp[val]++
+	}
+
+	for key, val := range mapp {
+		temp := array[val]
+		array[val] = append(temp, key)
+	}
+
+	for i := len(array) - 1; i > 0; i-- {
+		for _, el := range array[i] {
+			output = append(output, el)
+			if len(output) == k {
+				return output
+			}
+		}
+	}
+	return output
+}
