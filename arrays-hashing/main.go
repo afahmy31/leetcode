@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"sort"
+	"strconv"
 )
 
 func main() {
@@ -11,8 +13,11 @@ func main() {
 	// fmt.Println(twoSum([]int{1, 3, 2, 9, 4, 5}, 10))
 	// fmt.Println(groupAnagrams([]string{"eat", "tea", "tan", "ate", "nat", "bat"}))
 	// fmt.Println(topKFrequentBucketSortSol([]int{1, 1, 1, 3, 2, 2, 4, 4}, 2))
-	fmt.Println(topKFrequentBucketSortSol([]int{-1, -1}, 1))
-	fmt.Println(topKFrequentBucketSortSol([]int{1, 1, 2, 2, 2, 3, 3, 3}, 3))
+	// fmt.Println(topKFrequentBucketSortSol([]int{-1, -1}, 1))
+	// fmt.Println(topKFrequentBucketSortSol([]int{1, 1, 2, 2, 2, 3, 3, 3}, 3))
+	// fmt.Println(encodeDecodeStrs([]string{"hello", "world", "sup", "imdone"}))
+	byteSlice := []byte{'h', 'e', 'l', 'l', 'o'}
+	fmt.Println(reverseString(byteSlice))
 
 }
 
@@ -125,4 +130,46 @@ func topKFrequentBucketSortSol(nums []int, k int) (output []int) {
 		}
 	}
 	return output
+}
+
+func encodeDecodeStrs(strs []string) []string {
+	str := encode(strs)
+	return decode(str)
+}
+func encode(strs []string) string {
+	ans := &bytes.Buffer{}
+	for _, s := range strs {
+		t := fmt.Sprintf("%04d", len(s))
+		ans.WriteString(t)
+		ans.WriteString(s)
+	}
+	return ans.String()
+}
+
+func decode(str string) []string {
+	ans := []string{}
+	i, n := 0, len(str)
+
+	for i < n {
+		t := str[i : i+4]
+		i += 4
+		size, _ := strconv.Atoi(t)
+		ans = append(ans, str[i:i+size])
+		i += size
+	}
+	return ans
+}
+
+func reverseString(s []byte) []byte {
+	x := []byte{}
+	fmt.Println(s)
+	for i := len(s) - 1; i >= 0; i-- {
+		x = append(x, s[i])
+	}
+	fmt.Println(x)
+	return x
+}
+
+func productExceptSelf(nums []int) []int {
+	return []int{}
 }
